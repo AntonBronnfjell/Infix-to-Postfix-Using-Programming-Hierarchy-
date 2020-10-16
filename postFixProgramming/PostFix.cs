@@ -11,6 +11,7 @@ namespace postFixProgramming
         #region vars
 
         public readonly List<string> _listPostFix = new List<string>();
+        public readonly string[] reservedWords = { "void", "int", "string", "" };
 
         #endregion
 
@@ -102,44 +103,76 @@ namespace postFixProgramming
             int _priority = 0;
             switch (@char)
             {
+                case "[":
+                case "]":
+                case ".":
+                case "->":
                 case "++":
                 case "--":
-                    _priority = 9;
+                    _priority = 14;
+                    break;
+                case "<<":
+                case ">>":
+                    _priority = 13;
                     break;
                 case "*":
                 case "/":
                 case "%":
-                    _priority = 8;
+                    _priority = 12;
                     break;
                 case "+":
                 case "-":
-                    _priority = 7;
+                    _priority = 11;
                     break;
                 case "<":
                 case ">":
                 case "<=":
                 case ">=":
-                    _priority = 6;
+                    _priority = 10;
                     break;
                 case "==":
                 case "!=":
-                    _priority = 5;
+                    _priority = 9;
+                    break;
+                case "&":
+                    _priority = 8;
                     break;
                 case "^":
-                    _priority = 4;
+                    _priority = 7;
+                    break;
+                case "|":
+                    _priority = 6;
                     break;
                 case "&&":
-                    _priority = 3;
+                    _priority = 5;
                     break;
                 case "||":
-                    _priority = 2;
+                    _priority = 4;
+                    break;
+                case "?":
+                case ":":
+                    _priority = 3;
                     break;
                 case "=":
+                case "+=":
+                case "-=":
+                case "*=":
+                case "/=":
+                case "%=":
+                case "&=":
+                case "^=":
+                case "|=":
+                case "<<=":
+                case ">>=":
+                    _priority = 2;
+                    break;
+                case ",":
                     _priority = 1;
                     break;
                 default:
                     _priority = 0;
                     break;
+                    
             }
             return _priority;
         }
