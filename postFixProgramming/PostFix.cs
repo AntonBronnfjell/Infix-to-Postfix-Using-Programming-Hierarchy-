@@ -53,7 +53,18 @@ namespace postFixProgramming
                 {
                     if (Hierarchy(operators.Peek()) >= Hierarchy(_item))
                     {
-                        _listPostFix.Add(operators.Pop());
+                        bool isPushed = false;
+                        while (!isPushed)
+                        {
+                            if (Hierarchy(operators.Peek()) >= Hierarchy(_item))
+                            {
+                                _listPostFix.Add(operators.Pop());
+                            }
+                            else
+                            {
+                                isPushed = !isPushed;
+                            }
+                        }
                         operators.Push(_item);
                     }
                     else
@@ -89,23 +100,46 @@ namespace postFixProgramming
         private int Hierarchy(string @char)
         {
             int _priority = 0;
-            if (@char.Contains("^"))
+            switch (@char)
             {
-                _priority = 4;
-            }
-            else if (@char.Contains("&&") || @char.Contains("*") || @char.Contains("/"))
-            {
-                _priority = 3;
-
-            }
-            else if (@char.Contains("||") || @char.Contains("+") || @char.Contains("-"))
-            {
-                _priority = 2;
-            }
-            else if (@char.Contains("=") || @char.Contains(">") || @char.Contains("<") || @char.Contains(">=") || 
-                @char.Contains("<=") || @char.Contains("==") || @char.Contains("!="))
-            {
-                _priority = 1;
+                case "++":
+                case "--":
+                    _priority = 9;
+                    break;
+                case "*":
+                case "/":
+                case "%":
+                    _priority = 8;
+                    break;
+                case "+":
+                case "-":
+                    _priority = 7;
+                    break;
+                case "<":
+                case ">":
+                case "<=":
+                case ">=":
+                    _priority = 6;
+                    break;
+                case "==":
+                case "!=":
+                    _priority = 5;
+                    break;
+                case "^":
+                    _priority = 4;
+                    break;
+                case "&&":
+                    _priority = 3;
+                    break;
+                case "||":
+                    _priority = 2;
+                    break;
+                case "=":
+                    _priority = 1;
+                    break;
+                default:
+                    _priority = 0;
+                    break;
             }
             return _priority;
         }
